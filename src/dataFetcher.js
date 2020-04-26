@@ -1,13 +1,15 @@
 
-
-var Fred = require('fred-api');
-
-apiKey = process.env.FRED_KEY;
-fred   = new Fred(apiKey);
+import axios from 'axios';
 
 
-console.log("apikey:", apiKey);
+let apiKey = process.env.REACT_APP_FRED_KEY;
+let url = `https://api.stlouisfed.org/fred/series?series_id=GNPCA&api_key=${apiKey}&file_type=json`;
 
+const proxyurl = "https://cors-anywhere.herokuapp.com/";
+fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/https://example.com
+.then(response => response.text())
+.then(contents => console.log(contents))
+.catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
 
 
 export function getData() {
