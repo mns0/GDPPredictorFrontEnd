@@ -4521,6 +4521,11 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
+fred-api@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/fred-api/-/fred-api-2.0.1.tgz#5c375dcb03ec5afe22703ddcb7355ba18b746a0f"
+  integrity sha1-XDddywPsWv4icD3ctzVboYt0ag8=
+
 fresh@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
