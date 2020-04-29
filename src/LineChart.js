@@ -12,9 +12,19 @@ class LineChart extends React.Component {
   }
 
   componentDidUpdate() {
-    this.myChart.data.labels = this.props.data.map(d => d.time);
-    this.myChart.data.datasets[0].data = this.props.data.map(d => d.value);
-    this.myChart.update();
+    this.props.data
+    .then( _data => {
+        console.log("dd", _data);
+        this.myChart.data.labels = _data.map(d => d.time);
+        this.myChart.data.datasets[0].data = _data.map(d => d.value);
+        console.log("dddddtttttd", this.myChart.data.labels);
+
+        this.myChart.update();
+    })
+    .catch( (e) =>{
+        console.log("Error logged in linechart class:", e);
+    });
+
   }
 
   componentDidMount() {

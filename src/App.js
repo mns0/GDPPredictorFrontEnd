@@ -1,25 +1,38 @@
 import React from 'react';
 import './App.css';
 import LineChart from './LineChart.js';
-import {getData} from './dataFetcher.js';
+import {getData_test} from './dataFetcher.js';
+import { promises } from 'fs';
 
 // App 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.init_data = [{
+      title: 'Visits',
+      data: [{
+        time: new Date('2018-05-01T00:00:00').getTime(),
+        value: 0.0
+    }]
+    }];
 
     this.state = {
-      data: getData()
+      data: this.init_data
     };
   }
 
+
   componentDidMount() {
-    window.setInterval(() => {
+    const fetchUserEmail = async () => {
+      const _data =  getData_test();
+      const response = await _data[0].data;
       this.setState({
-        data: getData()
-      })
-    }, 5000)
+        data: _data
+      });
+    };
+    fetchUserEmail();
   }
+
 
   render() {
     return (
