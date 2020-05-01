@@ -54,9 +54,8 @@ async export function buildModel() {
     //CPILFESL,DFF,DTB3,DGS5,DGS10,UNRATE,PSAVERT,DSPI,GFDEGDQ188S
     //Getting data 
     var data = await getDataFromPrediction(); 
-
+    console.log("data", data);
 }
-
 
 export function getData() {
     let data = [];
