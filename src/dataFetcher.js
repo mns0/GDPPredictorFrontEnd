@@ -15,6 +15,17 @@ export function getDataFromFRED( fredCode ) {
 
 }
 
+
+// get data from GDP Prediciton API
+export function getDataFromPrediction() {
+    let url = `https://serene-crag-25078.herokuapp.com/api/predict`;
+    return fetch(url)
+    .then(response => response.json())
+    .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"));
+
+}
+
+
 //backfilling the data
 export async function CleanData(fredCode) {
     var data = [];
@@ -37,98 +48,13 @@ export async function CleanData(fredCode) {
 }
 
 
-// construct the data tensor 
-export function constructDataSet() {
+
+
+async export function buildModel() {
     //CPILFESL,DFF,DTB3,DGS5,DGS10,UNRATE,PSAVERT,DSPI,GFDEGDQ188S
     //Getting data 
-    let file = "../public/Preprocessed_data_gdp_pc.dat"
-    let GDP = CleanData("GDP");
-}
+    var data = await getDataFromPrediction(); 
 
-//loading and 
-//formatting the csvdata
-function loadCSVData(fileLocation) {
-    return d3.csv(fileLocation, (d) => {
-        return {
-            DATE : new Date(d['']),
-            CPILFESL : +d.CPILFESL,
-            DFF: +d.DFF,
-            DGS5: +d.DGS5,
-            DGS10: +d.DGS10,
-            DSPI: +d.DSPI,
-            DTB3: +d.DTB3,
-            GDP: +d.GDP,
-            GFDEGDQ188S: +d.GFDEGDQ188S,
-            PSAVERT: +d.PSAVERT,
-            UNRATE: +d.UNRATE
-        };
-    });
-}
-
-
-
-const randomArray = (length, max) => 
-  Array(length).fill().map(() => Math.round(Math.random() * max))
-
-
-
-//Construct input into generator from local CSV
-async function loadLocalData() {
-    //load local csv file
-    let localData = await loadCSVData(data);
-    //full 2d array dataset Remove the date and GDP column for testing
-    let dataColArr = [...Array(localData.columns.length-1-1)].map(e => Array(1).fill(0));
-    //create columns for tensor
-    localData.map( (d) => {
-        for(let i = 1; i < localData.columns.length-1; i++) {
-            dataColArr[i-1].push(d[localData.columns[i]]);
-        };
-    });
-
-
-    //Data transformation steps
-
-
-    //Tensor input
-    let seqLength = 15;
-    let tensorInput = [];
-    dataColArr.forEach( col => {
-        for (let i = col.length-seqLength; i <col.length;i++ ) {
-            tensorInput.push(col[i]);
-        };
-    });
-
-    let conditionalTensor = new Tensor(tensorInput, "float32",[1, seqLength,9]); //1x15x9
-    let noise = randomArray(15,10);
-    let noiseTensor = new Tensor(noise, "float32",[1, seqLength,1]); //1x15x9
-
-    //onnx test
-    const session = new InferenceSession();
-    //const url = "./src/gen_8020_model.onnx";
-    await session.loadModel(onnx_model);
-    // const inputs = [
-    //     conditionalTensor,
-    //     noiseTensor
-    // ];
-
-    // const outputMap = await session.run(inputs);
-    // const outputTensor = outputMap.values().next().value;
-    // console.log("dd", outputTensor);
-
-
-}
-
-
-loadLocalData()
-
-
-export function buildModel() {
-    //CPILFESL,DFF,DTB3,DGS5,DGS10,UNRATE,PSAVERT,DSPI,GFDEGDQ188S
-    //Getting data 
-    var file = "../public/Preprocessed_data_gdp_pc.dat"
-    const session = new InferenceSession();
-    const url = "./model.onnx";
-    //await session.loadModel(url);
 }
 
 
