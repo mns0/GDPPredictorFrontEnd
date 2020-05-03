@@ -1,7 +1,3 @@
-import { Tensor, InferenceSession } from "onnxjs";
-import * as d3 from 'd3';
-import data from './Preprocessed_data_gdp_pc.csv';
-import onnx_model from './gen_8020_model.onnx';
 
 
 // get data from fred 
@@ -10,7 +6,7 @@ export function getDataFromFRED( fredCode ) {
     let url = `https://api.stlouisfed.org/fred/series/observations?series_id=${fredCode}&api_key=${apiKey}&file_type=json`;
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
     return fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/https://example.com
-    .then(response => response.json())
+    .then(function(response) {return response.json()})
     .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"));
 
 }
@@ -20,11 +16,9 @@ export function getDataFromFRED( fredCode ) {
 export function getDataFromPrediction() {
     let url = `https://serene-crag-25078.herokuapp.com/api/predict`;
     return fetch(url)
-    .then(response => response.json())
+    .then(function(response) {return response.json()})
     .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"));
-
 }
-
 
 //backfilling the data
 export async function CleanData(fredCode) {
@@ -32,7 +26,7 @@ export async function CleanData(fredCode) {
     var contents = await getDataFromFRED( fredCode );
     console.log("content", Date(contents.observations[20].date),contents.observations[20].date);
     //backfill bad values
-    var obvLength = Number(contents.ob3servations.length);
+    var obvLength = Number(contents.observations.length);
     var prevObvValue = contents.observations[obvLength-1].value;
     for(var i = obvLength-1; i  >= 0; i--) {
         var obvTime = Date(contents.observations[i].date);
@@ -48,20 +42,31 @@ export async function CleanData(fredCode) {
 }
 
 
+export function formatPredictionAPIData(data) {
+    var retArr = [];
+    // for(var i = data.dates.length; i  >= 0; i++) {
+    //     retArr.push({ time: new Date(data.dates[i]) , value: Number(data.gdp[i])});
+    // }
+    console.log(retArr);
+}
 
 
-async export function buildModel() {
+
+export async function buildModel() {
     //CPILFESL,DFF,DTB3,DGS5,DGS10,UNRATE,PSAVERT,DSPI,GFDEGDQ188S
     //Getting data 
-    var data = await getDataFromPrediction(); 
-    console.log("data", data);
+    var data = await getDataFromPrediction();
+    console.log("be", data.gdp_time);
+    return data.gdp_time;
 }
+
+buildModel();
 
 export function getData() {
     let data = [];
     data.push({
-      title: 'Visits',
-      data: CleanData("GDP")
+      title: 'Percent Change of GDP',
+      data: buildModel()
     });
     return data;
 }

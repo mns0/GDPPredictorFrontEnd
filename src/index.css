@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+
+.gdpChartContainer {
+  /*width:calc(100vw - 40px);*/
+  /*height: calc(100vh - 40px);*/
+  background-color: #FFFAF0;
+  /*width:calc(100vw - 40px);*/
+  width: 600px;
+  /*height: calc(100vh - 40px);*/
+  height: 400px;
+  padding: 0px;
+  box-sizing: border-box;
+  margin: 5px;
+
+}

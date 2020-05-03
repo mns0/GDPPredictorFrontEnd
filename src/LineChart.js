@@ -1,5 +1,6 @@
 import React from 'react';
 import { Chart } from 'react-chartjs-2';
+import { Header ,Container, Segment, Grid} from 'semantic-ui-react'
 
 
 Chart.defaults.global.defaultFontFamily = "Roboto, sans-serif";
@@ -14,11 +15,8 @@ class LineChart extends React.Component {
   componentDidUpdate() {
     this.props.data
     .then( _data => {
-        console.log("dd", _data);
         this.myChart.data.labels = _data.map(d => d.time);
         this.myChart.data.datasets[0].data = _data.map(d => d.value);
-        console.log("dddddtttttd", this.myChart.data.labels);
-
         this.myChart.update();
     })
     .catch( (e) =>{
@@ -37,14 +35,15 @@ class LineChart extends React.Component {
             {
               type: 'time',
               time: {
-                unit: 'week'
+                unit: 'year'
               }
             }
           ],
           yAxes: [
             {
               ticks: {
-                min: 0
+                min: -1.0,
+                stepSize: 0.5
               }
             }
           ]
@@ -57,17 +56,40 @@ class LineChart extends React.Component {
           data: this.props.data.map(d => d.value),
           fill: 'none',
           backgroundColor: this.props.color,
-          pointRadius: 2,
+          pointRadius: 1,
           borderColor: this.props.color,
           borderWidth: 1,
           lineTension: 0
-        }]
+        }],
+        ticks: {
+            autoSkip: true,
+            maxTicksLimit: 10,
+        }
       }
     });
   }
 
   render() {
-    return <canvas ref={this.canvasRef} />;
+    return  (
+      <Grid centered columns={2}>
+
+
+    <Grid.Column>
+
+      <Segment compact>
+        <Header textAlign='center' as='h2' >GDP Prediction</Header>
+          <div className="gdpChartContainer">
+            <canvas id="gdpchart" width="300" height="200" ref={this.canvasRef} />
+          </div>
+          <p>
+            GDP Prediction.
+          </p>
+      </Segment>
+      </Grid.Column>
+
+
+      </Grid>
+    )
   }
 }
 
@@ -75,3 +97,7 @@ class LineChart extends React.Component {
 
 
 export default LineChart;
+
+
+
+

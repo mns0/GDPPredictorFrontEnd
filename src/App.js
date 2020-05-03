@@ -1,15 +1,16 @@
 import React from 'react';
 import './App.css';
 import LineChart from './LineChart.js';
-import {getData_test} from './dataFetcher.js';
+import {getData} from './dataFetcher.js';
 import { promises } from 'fs';
+
 
 // App 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.init_data = [{
-      title: 'Visits',
+      title: '% Difference of GDP',
       data: [{
         time: new Date('2018-05-01T00:00:00').getTime(),
         value: 0.0
@@ -24,8 +25,9 @@ class App extends React.Component {
 
   componentDidMount() {
     const fetchUserEmail = async () => {
-      const _data =  getData_test();
+      const _data =  getData();
       const response = await _data[0].data;
+      console.log(_data);
       this.setState({
         data: _data
       });
@@ -44,7 +46,7 @@ class App extends React.Component {
             color="#3E517A"
           />
         </div>
-      </div>
+        </div>
     );
   }
 }
