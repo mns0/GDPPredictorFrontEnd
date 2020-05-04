@@ -71,11 +71,6 @@ class LineChart extends React.Component {
 
   render() {
     return  (
-      <Grid centered columns={2}>
-
-
-    <Grid.Column>
-
       <Segment compact>
         <Header textAlign='center' as='h2' >GDP Prediction</Header>
           <div className="gdpChartContainer">
@@ -85,10 +80,6 @@ class LineChart extends React.Component {
             GDP Prediction.
           </p>
       </Segment>
-      </Grid.Column>
-
-
-      </Grid>
     )
   }
 }

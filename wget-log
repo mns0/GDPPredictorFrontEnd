@@ -1,0 +1,6 @@
+--2020-04-26 11:04:15--  https://api.stlouisfed.org/fred/series?series_id=GNPCA
+Resolving api.stlouisfed.org (api.stlouisfed.org)... 23.55.183.170
+Connecting to api.stlouisfed.org (api.stlouisfed.org)|23.55.183.170|:443... connected.
+HTTP request sent, awaiting response... 400 Bad Request
+2020-04-26 11:04:15 ERROR 400: Bad Request.
+
